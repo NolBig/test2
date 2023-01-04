@@ -131,10 +131,20 @@ Le code sera restauré ou le fichier s'il a été supprimé.
 Exemple : Si je supprime form.html et que j'utilise git restore
 Il sera restauré, par contre si j'ai commit entre temps la suppression, c'est trop tard.
 
-git checkout est l'ancienne version de git restore.
+git checkout <nom du fichier> est l'ancienne version de git restore.
+
+Ces commandes ne peuvent être utilisées que sur des fichiers qui ont été commit au moins une fois.
+
+
+Pour connaitre l'id, il suffit d'utiliser : git log --oneline
+Il s'agit des lettres et des chiffres devant le commit
 
 git reset <id> : permet de revenir sur une ancienne version. Il faudra accepter les changements que l'on veut reinitialiser.
 (pour récupérer les id des versions, il faut saisir la commande : git log --oneline)
+
+Une fois que l'on a utilisé git reset <id>, on a le choix, soit on utilise : 
+- git add et on continue d'avancer sans revenir arrière.
+- git restore et on restaure le fichier à son ancienne version.
 
 git reset current~2
 (permet de revenir sur deux versions en arrière).
@@ -173,3 +183,9 @@ On peut fusionner deux branches. Par exemple pour ajouter la fonctionnalité dan
 git rebase
 git merge
 
+Il faut se mettre sur la branche qui va recevoir les nouvelles fonctionnalités. 
+Exemple : On veut fusionner le fichier index.js sur la branche master.
+On va donc faire : git switch master
+
+Dans le cas de fichier inexistant, la fusion se fait automatiquement. 
+Dans le cas de notre exemple : si il y a des fichiers sur la branche developer qui n'existe pas dans la branche master, ça les ajoute juste.
