@@ -1,0 +1,175 @@
+Commande Unix
+
+cd : change directory : se déplacer dans les repertoires.
+pwd : print working directory : affiche le chemin d'accès au dossier.
+ls : On affiche le contenu du dossier courant.
+mkdir : créer un dossier.
+touch : créer un fichier.
+rm : supprimer un fichier et dossier.
+mv : renommer ou déplacer un fichier.
+clear ou cls pour effacer l'historique du terminal.
+nano <nom du fichier> : permet d'ouvrir un fichier dans l'éditeur.
+
+Chaque commande a des options possibles (flags)
+
+Deux manières de créer un dépôt (repository) GIT : 
+
+- git clone : on clone un dépôt déjà existant.
+
+- git init : on créé un dépôt à partir de 0. (on peut créé un dépôt à partir d'un projet déjà existant)
+
+Visual Studio Code affiche des lettres en lien avec Git :
+
+- A : Added
+
+- U : Untracked
+
+- M : Modified
+
+- C : Conflict
+
+- D : Deleted
+
+- R : Renamed
+
+Instantanée (snapshot) : une version de notre projet.
+
+Les fichiers de notre projet ont deux grands status : 
+
+- Suivi (tracked)
+- Non suivi (untracked). Les fichiers non suivis ne sont pas dans le dépôt GIT, si on le supprime, on ne pourra pas le récupérer.
+
+Par défaut, tous les fichiers sont non suivis. 
+
+Pour qu'un nouveau fichier soit suivi, il faudra l'ajouter au dépôt.
+
+git status nous permet de voir les fichiers non suivis. 
+Ainsi que les fichiers modifiés, supprimés...
+
+Il existe trois zones quand on travaille GIT :
+
+- Working Tree (arbre de travail) : C'est l'arbre de vos fichiers sur lesquels vous travaillez.
+- Staging Area (zone d'index) : Zone que l'on voit avec git status
+- Dépôt GIT : la zone où les versions sont enregistrées.
+
+Git status nous précise qu'il n'y a pas eu de commit pour le moment ("No commit yet"). 
+Un commit est une validation d'une nouvelle instantanée (snapshot).
+Quand on commit, on créé une nouvelle version de son projet.
+
+Pour ajouter un fichier à la zone d'index et le suivre. On utilise la commande : 
+
+git add <nom du fichier>
+
+Il sera alors ajouté au prochain commit.
+
+On peut utiliser "*" pour envoyer tous les fichiers du dossiers, ou seulement des fichiers avec certaines extensions : 
+
+git add *
+git add *.css
+
+Pour éviter que des fichiers se retrouvent dans la zone d'index (staging area) par erreur, vous pouvez utiliser un fichier .gitignore
+
+Pour pouvoir faire un commit, il faut s'identifier grâce à la commande git config : 
+
+- git config --global user.name <votre nom>
+- git config --global user.email <votre email>
+
+(commande supplementaire)
+
+- git config --global core.editor "code --wait"
+Permet de modifier l'éditeur utilisé pendant les commits. Ici code --wait représente VS Code.
+
+
+Pour valider et créer une nouvelle version de son projet, on utilise : 
+
+git commit
+
+Lorsque l'on fait un commit, on doit laisser un message qui précise ce que fait le commit.
+Pour mettre le message, un éditeur s'ouvre (VIM par défaut), il suffit de laisser le message, l'enregistrer et fermer.
+
+Si on veut mettre le message sans ouvrir d'éditeur, on ajoute l'option -m 
+Exemple : git commit -m "Mon commit"
+
+shift + command + p
+
+Install code : Shell install code
+Permet d'installer les commandes de VS code ce qui permet d'effectuer un git commit avec VS Code.
+
+Une fois que l'on a fait un commit, on peut consulter le journal des versions avec :
+
+git log 
+
+On peut ajouter plusieurs options à git log pour obtenir un tri des différents commits.
+
+Si on a indexé un fichier par défaut mais que nous ne l'avons pas encore commit, on peut le retirer de la zone d'index avec :
+
+git restore --staged <nom du fichier>
+git rm --cached <nom du fichier>
+
+Si on veut supprimer un fichier : 
+
+- git rm : permet de supprimer un fichier d'un dépôt git et de la zone de suivi. Si le fichier n'est pas dans le dépôt, il y aura une erreur fatale.
+- rm : permet de supprimer un fichier de l'arbre de travail (working tree) sans forcément le supprimer du dépot git.
+
+Pour pouvoir corriger le dernier commit dans le cas d'erreur :
+
+git commit --amend -m "Correction des erreurs"
+
+Le git commit --amend va modifier le dernier commit fait 
+Cela évite tout simplement de polluer le journal de log avec un nouveau commit.
+
+(commande supplémentaire) 
+
+git mv <ancien nom> <nouveau nom> : renommer un fichier se trouvant dans le dépôt
+
+Il est possible de revenir en arrière :
+
+git restore <nom d'un fichier> 
+
+Le code sera restauré ou le fichier s'il a été supprimé. 
+/!\ Seulement sur le dernier commit. 
+Exemple : Si je supprime form.html et que j'utilise git restore
+Il sera restauré, par contre si j'ai commit entre temps la suppression, c'est trop tard.
+
+git checkout est l'ancienne version de git restore.
+
+git reset <id> : permet de revenir sur une ancienne version. Il faudra accepter les changements que l'on veut reinitialiser.
+(pour récupérer les id des versions, il faut saisir la commande : git log --oneline)
+
+git reset current~2
+(permet de revenir sur deux versions en arrière).
+(on peut remplacer 2 par d'autres chiffres). 
+
+git revert <id>
+
+Le git revert est une alternative au git reset. La différence c'est qu'il utilise la gestion de conflit.
+Il va comparer l'ancienne version et la nouvelle. Le développeur pourra choisir ce qu'il veut garder avant de refaire un commit.
+
+--------- Les branches --------------
+
+Une branche permet de développer des fonctionnalités sans intéragir avec la branche principale.
+
+Exemple : boutique en ligne 
+
+On aura une branche production : version finale du site.
+On aura une seconde branche preproduction : version de développement du site.
+
+
+On a désormais deux branches :
+
+- branche master (principale)
+- branche developer (seconde branche)
+
+On peut utiliser git log pour voir la branche sur laquelle on se situe.
+
+Pour changer de branche :
+
+git switch <nom de la branche>
+git checkout <nom de la branche> (Ancienne version de git)
+
+
+On peut fusionner deux branches. Par exemple pour ajouter la fonctionnalité dans la production.
+
+git rebase
+git merge
+
